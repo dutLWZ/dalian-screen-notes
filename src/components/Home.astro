@@ -1,0 +1,39 @@
+---
+import Base from '../layouts/Base.astro';
+import { localize, useTranslations, type Locale } from '../i18n/ui';
+
+const locale = (Astro.currentLocale ?? 'zh') as Locale;
+const t = useTranslations(locale);
+
+const sections = [
+  { key: 'nav.tests', path: 'tests', desc: 'sections.tests.desc', icon: '🎬' },
+  { key: 'nav.dcp', path: 'dcp', desc: 'sections.dcp.desc', icon: '🎞️' },
+  { key: 'nav.subtitles', path: 'subtitles', desc: 'sections.subtitles.desc', icon: '💬' },
+  { key: 'nav.dalianCinemas', path: 'dalian-cinemas', desc: 'sections.cinemas.desc', icon: '🏙️' },
+  { key: 'nav.dalianCommunity', path: 'dalian-community', desc: 'sections.community.desc', icon: '🎲' },
+  { key: 'nav.shares', path: 'shares', desc: 'sections.shares.desc', icon: '🍜' },
+  { key: 'nav.about', path: 'about', desc: 'sections.about.desc', icon: 'ℹ️' },
+];
+---
+
+<Base title={t('home.hero.title')}>
+  <section class="hero">
+    <h1>{t('home.hero.title')}</h1>
+    <p>{t('home.hero.subtitle')}</p>
+    <a class="cta" href={localize(locale, 'tests')}>{t('home.hero.cta')}</a>
+  </section>
+  <section>
+    <h2>{t('home.sections.title')}</h2>
+    <div class="grid">
+      {
+        sections.map((s) => (
+          <a class="card" href={localize(locale, s.path)}>
+            <span class="card-icon">{s.icon}</span>
+            <h3>{t(s.key)}</h3>
+            <p>{t(s.desc)}</p>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+</Base>
