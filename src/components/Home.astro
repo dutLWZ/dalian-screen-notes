@@ -1,4 +1,5 @@
 ---
+import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import { localize, useTranslations, type Locale } from '../i18n/ui';
 
@@ -14,6 +15,10 @@ const sections = [
   { key: 'nav.shares', path: 'shares', desc: 'sections.shares.desc', icon: '🍜' },
   { key: 'nav.about', path: 'about', desc: 'sections.about.desc', icon: 'ℹ️' },
 ];
+
+const latestTests = (await getCollection('tests'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
 ---
 
 <Base title={t('home.hero.title')}>
@@ -22,6 +27,31 @@ const sections = [
     <p>{t('home.hero.subtitle')}</p>
     <a class="cta" href={localize(locale, 'tests')}>{t('home.hero.cta')}</a>
   </section>
+
+  {
+    latestTests.length > 0 && (
+      <section>
+        <h2>{t('home.latest.title')}</h2>
+        <div class="grid">
+          {latestTests.map((entry) => {
+            const title = locale === 'en'
+              ? (entry.data.titleEn ?? entry.data.title)
+              : entry.data.title;
+            return (
+              <a class="card" href={localize(locale, `tests/${entry.id}`)}>
+                <h3>{title}</h3>
+                <p class="muted">
+                  {entry.data.date.toISOString().slice(0, 10)} · {entry.data.cinema}
+                </p>
+              </a>
+            );
+          })}
+        </div>
+        <p><a href={localize(locale, 'tests')}>{t('home.latest.more')} →</a></p>
+      </section>
+    )
+  }
+
   <section>
     <h2>{t('home.sections.title')}</h2>
     <div class="grid">

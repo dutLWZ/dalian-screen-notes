@@ -1,0 +1,41 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { localize, useTranslations, type Locale } from '../i18n/ui';
+
+interface Props {
+  collection: 'dcp' | 'subtitles' | 'dalian-cinemas';
+  section: string;
+}
+
+const { collection, section } = Astro.props;
+const locale = (Astro.currentLocale ?? 'zh') as Locale;
+const t = useTranslations(locale);
+const entries = (await getCollection(collection)).sort(
+  (a, b) => a.data.order - b.data.order || b.data.date.valueOf() - a.data.date.valueOf()
+);
+---
+
+<Base title={t(`sections.${section}.title`)}>
+  <h1>{t(`sections.${section}.title`)}</h1>
+  <p>{t(`sections.${section}.desc`)}</p>
+  {
+    entries.length === 0 ? (
+      <p class="muted">{t('section.coming')}</p>
+    ) : (
+      <div class="grid">
+        {entries.map((entry) => {
+          const title = locale === 'en'
+            ? (entry.data.titleEn ?? entry.data.title)
+            : entry.data.title;
+          return (
+            <a class="card" href={localize(locale, `${collection}/${entry.id}`)}>
+              <h3>{title}</h3>
+              <p class="muted">{entry.data.date.toISOString().slice(0, 10)}</p>
+            </a>
+          );
+        })}
+      </div>
+    )
+  }
+</Base>

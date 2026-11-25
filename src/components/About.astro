@@ -1,0 +1,75 @@
+---
+import Base from '../layouts/Base.astro';
+import { useTranslations, type Locale } from '../i18n/ui';
+
+const locale = (Astro.currentLocale ?? 'zh') as Locale;
+const t = useTranslations(locale);
+const isZh = locale === 'zh';
+---
+
+<Base title={t('sections.about.title')}>
+  <article>
+    <h1>{t('sections.about.title')}</h1>
+    <p>{t('sections.about.desc')}</p>
+
+    {isZh ? (
+      <>
+        <h2>三种验证方式（最重要）</h2>
+        <ul>
+          <li><strong>方式 A · 电脑本地播放</strong>：验证原始素材是否正常，但不能验证 DCP 编码和影院链路。</li>
+          <li><strong>方式 B · HDMI 到影院</strong>：验证显示链路，但输出的是电脑已解码渲染的信号，不是 DCP 的 JPEG 2000。</li>
+          <li><strong>方式 C · 真 DCP 放映</strong>：唯一能作为最终验收的方式。</li>
+        </ul>
+
+        <h2>制作前确认</h2>
+        <ul>
+          <li>影院设备：2K/4K、SMPTE/Interop、Flat/Scope、帧率、声道、VF 支持、KDM、交付介质。</li>
+          <li>制作电脑：CPU、GPU 解码、内存、硬盘空间，并用短片实测编码速度。</li>
+          <li>素材：分辨率、比例、帧率、码率、色彩、暗部、字幕格式与时间轴。</li>
+        </ul>
+
+        <h2>影院验证清单</h2>
+        <ul>
+          <li>画面：比例、分辨率、清晰度、暗部、高光、色彩、黑位、帧率。</li>
+          <li>声音：正常播放、声道映射。</li>
+          <li>字幕：显示、位置、同步、裁切。</li>
+          <li>服务器：能否正常播放。</li>
+        </ul>
+
+        <h2>结论</h2>
+        <p>通过 / 有条件通过 / 不通过。测试 DCP 应尽量使用正式交付的参数。</p>
+
+        <p>详细方法论见项目内 skill：<code>.agents/skills/cinema-verification</code> 与 <code>.agents/skills/dcp-authoring</code>。</p>
+      </>
+    ) : (
+      <>
+        <h2>Three verification methods (most important)</h2>
+        <ul>
+          <li><strong>A · Local playback</strong>: checks the source, not DCP encoding or the cinema chain.</li>
+          <li><strong>B · HDMI to cinema</strong>: checks the display chain, but outputs decoded/rendered signal, not DCP JPEG 2000.</li>
+          <li><strong>C · Real DCP screening</strong>: the only valid final acceptance.</li>
+        </ul>
+
+        <h2>Confirm before authoring</h2>
+        <ul>
+          <li>Cinema: 2K/4K, SMPTE/Interop, Flat/Scope, frame rate, audio layout, VF support, KDM, delivery media.</li>
+          <li>Production PC: CPU, GPU decode, RAM, disk space, and a short-encode speed test.</li>
+          <li>Source: resolution, aspect, frame rate, bitrate, color, shadows, subtitle format and timing.</li>
+        </ul>
+
+        <h2>Cinema verification checklist</h2>
+        <ul>
+          <li>Picture: aspect, resolution, sharpness, shadows, highlights, color, black level, frame rate.</li>
+          <li>Sound: playback and channel mapping.</li>
+          <li>Subtitles: display, position, sync, cropping.</li>
+          <li>Server: plays back correctly.</li>
+        </ul>
+
+        <h2>Verdict</h2>
+        <p>Pass / Pass with conditions / Fail. Test DCPs should use the same parameters as the final delivery.</p>
+
+        <p>Full methodology lives in <code>.agents/skills/cinema-verification</code> and <code>.agents/skills/dcp-authoring</code>.</p>
+      </>
+    )}
+  </article>
+</Base>

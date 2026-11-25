@@ -1,0 +1,27 @@
+---
+import Base from '../layouts/Base.astro';
+import { render } from 'astro:content';
+import { useTranslations, type Locale } from '../i18n/ui';
+
+// entry comes from getStaticPaths; kept loosely typed since this component is
+// shared by the dcp / subtitles / dalian-cinemas guide collections.
+interface Props {
+  entry: any;
+}
+
+const { entry } = Astro.props;
+const locale = (Astro.currentLocale ?? 'zh') as Locale;
+const t = useTranslations(locale);
+const { Content } = await render(entry);
+const title = locale === 'en'
+  ? (entry.data.titleEn ?? entry.data.title)
+  : entry.data.title;
+---
+
+<Base title={title}>
+  <article>
+    <h1>{title}</h1>
+    <p class="muted">{entry.data.date.toISOString().slice(0, 10)}</p>
+    <Content />
+  </article>
+</Base>
