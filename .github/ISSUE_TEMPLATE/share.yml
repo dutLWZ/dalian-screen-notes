@@ -1,0 +1,38 @@
+name: 投稿：个人分享
+description: 提交美食点评或其他个人分享
+title: "[分享] "
+labels: ["content", "share"]
+body:
+  - type: input
+    id: title
+    attributes:
+      label: 标题
+      placeholder: 例如：某拉面馆点评
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: 分类
+      options:
+        - 美食 food
+        - 桌游 boardgame
+        - 社区 community
+        - 其他 other
+    validations:
+      required: true
+  - type: input
+    id: dianpingSearch
+    attributes:
+      label: 大众点评搜索名（可选，不写电话/地址）
+      placeholder: 在大众点评搜 XX
+  - type: input
+    id: rating
+    attributes:
+      label: 评分（1-5，可选）
+  - type: textarea
+    id: details
+    attributes:
+      label: 点评内容
+    validations:
+      required: true

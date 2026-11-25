@@ -1,0 +1,76 @@
+name: 投稿：验证记录
+description: 提交一条影院 DCP 验证记录（画面/声音/字幕）
+title: "[验证记录] "
+labels: ["content", "test-report"]
+body:
+  - type: input
+    id: title
+    attributes:
+      label: 影片名
+      placeholder: 例如：黑
+    validations:
+      required: true
+  - type: input
+    id: titleEn
+    attributes:
+      label: 英文片名（可选）
+  - type: input
+    id: date
+    attributes:
+      label: 验证日期
+      placeholder: 2026-11-23
+  - type: input
+    id: cinema
+    attributes:
+      label: 影院
+      description: 不写电话/地址，只写「在大众点评搜 XX」即可
+      placeholder: 在大众点评搜 XX影城
+  - type: dropdown
+    id: picture
+    attributes:
+      label: 画面结论
+      options:
+        - 通过 pass
+        - 有条件通过 warn
+        - 不通过 fail
+    validations:
+      required: true
+  - type: dropdown
+    id: sound
+    attributes:
+      label: 声音结论
+      options:
+        - 通过 pass
+        - 有条件通过 warn
+        - 不通过 fail
+    validations:
+      required: true
+  - type: dropdown
+    id: subtitle
+    attributes:
+      label: 字幕结论
+      options:
+        - 通过 pass
+        - 有条件通过 warn
+        - 不通过 fail
+    validations:
+      required: true
+  - type: input
+    id: projector
+    attributes:
+      label: 放映机型号（可选）
+  - type: input
+    id: server
+    attributes:
+      label: 放映服务器型号（可选）
+  - type: input
+    id: productionPc
+    attributes:
+      label: 制作电脑条件（可选）
+  - type: textarea
+    id: details
+    attributes:
+      label: 详细说明
+      description: 验证过程、发现的问题、总体结论
+    validations:
+      required: true

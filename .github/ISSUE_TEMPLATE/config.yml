@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 站点 · Site
+    url: https://dutlwz.github.io/dalian-screen-notes/
+    about: 先看看站点说明
+  - name: 投稿指南 · Contributing
+    url: https://github.com/dutLWZ/dalian-screen-notes/blob/main/CONTRIBUTING.md
+    about: 投稿前请先阅读

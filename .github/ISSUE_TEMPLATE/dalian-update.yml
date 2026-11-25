@@ -1,0 +1,29 @@
+name: 投稿：大连信息
+description: 提交或更新大连影院/社区信息
+title: "[大连信息] "
+labels: ["content", "dalian"]
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: 类型
+      options:
+        - 影院
+        - 社区（桌游等）
+        - 其他本地信息
+    validations:
+      required: true
+  - type: input
+    id: name
+    attributes:
+      label: 名称
+      placeholder: 在大众点评搜 XX（不写电话/地址）
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: 说明
+      description: 设备、可预约试映情况、体验、注意事项等
+    validations:
+      required: true

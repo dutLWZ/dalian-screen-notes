@@ -1,0 +1,70 @@
+---
+import Base from '../layouts/Base.astro';
+import { useTranslations, type Locale } from '../i18n/ui';
+import { render, type CollectionEntry } from 'astro:content';
+
+interface Props {
+  entry: CollectionEntry<'tests'>;
+}
+
+const { entry } = Astro.props;
+const locale = (Astro.currentLocale ?? 'zh') as Locale;
+const t = useTranslations(locale);
+const { Content } = await render(entry);
+
+const title = locale === 'en'
+  ? (entry.data.titleEn ?? entry.data.title)
+  : entry.data.title;
+const cinema = locale === 'en'
+  ? (entry.data.cinemaEn ?? entry.data.cinema)
+  : entry.data.cinema;
+
+const verdictLabels: Record<Locale, Record<string, string>> = {
+  zh: { pass: '通过', warn: '有条件通过', fail: '不通过' },
+  en: { pass: 'Pass', warn: 'Pass with conditions', fail: 'Fail' },
+};
+const verdictIcons: Record<string, string> = { pass: '✅', warn: '⚠️', fail: '❌' };
+
+const fields = [
+  { label: locale === 'en' ? 'Picture' : '画面', value: entry.data.picture },
+  { label: locale === 'en' ? 'Sound' : '声音', value: entry.data.sound },
+  { label: locale === 'en' ? 'Subtitle' : '字幕', value: entry.data.subtitle },
+];
+---
+
+<Base title={title}>
+  <article>
+    <h1>{title}</h1>
+    <p class="muted">{entry.data.date.toISOString().slice(0, 10)} · {cinema}</p>
+
+    <div class="verdicts">
+      {fields.map((f) => (
+        <span class="verdict">
+          {verdictIcons[f.value]} {f.label}: {verdictLabels[locale][f.value]}
+        </span>
+      ))}
+    </div>
+
+    {entry.data.projector && (
+      <p><strong>{locale === 'en' ? 'Projector' : '放映机'}:</strong> {entry.data.projector}</p>
+    )}
+    {entry.data.server && (
+      <p><strong>{locale === 'en' ? 'Server' : '放映服务器'}:</strong> {entry.data.server}</p>
+    )}
+    {entry.data.productionPc && (
+      <p><strong>{locale === 'en' ? 'Production PC' : '制作电脑'}:</strong> {entry.data.productionPc}</p>
+    )}
+
+    {entry.data.issues.length > 0 && (
+      <>
+        <h2>{locale === 'en' ? 'Issues' : '发现的问题'}</h2>
+        <ul>
+          {entry.data.issues.map((i) => <li>{i}</li>)}
+        </ul>
+      </>
+    )}
+
+    <h2>{locale === 'en' ? 'Details' : '详细说明'}</h2>
+    <Content />
+  </article>
+</Base>

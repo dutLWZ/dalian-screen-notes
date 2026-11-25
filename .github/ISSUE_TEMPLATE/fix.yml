@@ -1,0 +1,18 @@
+name: 纠错 / 反馈
+description: 指出内容错误或提建议
+title: "[纠错] "
+labels: ["fix"]
+body:
+  - type: input
+    id: page
+    attributes:
+      label: 涉及页面/文章
+      placeholder: 例如：/tests/black-2026-11-23
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: 问题描述
+    validations:
+      required: true
